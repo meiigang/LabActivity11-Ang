@@ -10,6 +10,11 @@
     <header class="bg-blue-800 text-white shadow">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
             <a href="{{ route('posts.index') }}" class="text-xl font-bold">Barangay Bulletin – Purok Ang</a>
+            @auth
+                @if (auth()->user()->author()->exists())
+                    <a href="{{ route('posts.create') }}" class="font-semibold hover:underline">New post</a>
+                @endif
+            @endauth
         </div>
     </header>
 

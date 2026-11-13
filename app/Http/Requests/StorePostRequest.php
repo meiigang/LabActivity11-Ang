@@ -12,7 +12,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->author()->exists() ?? false;
     }
 
     /**
@@ -23,7 +23,12 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'min:20'],
+            'category' => ['required', 'string', 'in:Announcement,Health,Peace & Order,Ayuda,Event'],
+            'tags' => ['required', 'array', 'min:1'],
+            'tags.*' => ['exists:tags,id'],
+            'is_published' => ['boolean'],
         ];
     }
 }

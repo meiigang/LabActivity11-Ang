@@ -23,6 +23,10 @@
                 @endforeach
             </select>
 
+            <label for="tag" class="sr-only">Tag</label>
+            <input id="tag" name="tag" value="{{ request('tag') }}" placeholder="Filter by tag"
+                class="rounded-lg border-gray-300 px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+
             <button type="submit" class="rounded-lg bg-blue-700 px-5 py-2 font-semibold text-white hover:bg-blue-800">
                 Filter
             </button>
@@ -42,10 +46,21 @@
                     </a>
                 </h2>
                 <p class="mt-2 line-clamp-3 text-gray-600">{{ $post->body }}</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-sm">
+                    @foreach ($post->tags as $tag)
+                        <a href="{{ route('posts.index', ['tag' => $tag->name]) }}"
+                            class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 hover:bg-gray-200">
+                            #{{ $tag->name }}
+                        </a>
+                    @endforeach
+                </div>
                 <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-500">
                     <span>{{ $post->published_at?->format('M d, Y') }}</span>
                     <span>{{ $post->views }} views</span>
-                    <span>Author ID: {{ $post->author_id }}</span>
+                    <a href="{{ route('authors.show', $post->author) }}" class="text-blue-700 hover:underline">
+                        {{ $post->author->name }}
+                    </a>
+                    <span>{{ $post->comments_count }} comments</span>
                 </div>
             </article>
         @empty
