@@ -20,7 +20,7 @@ class CommentSeeder extends Seeder
         Post::where('is_published', true)
             ->where('id', '!=', $pinnedPost->id)
             ->each(function (Post $post) use ($users): void {
-                for ($comment = 0; $comment < random_int(0, 2); $comment++) {
+                for ($comment = 0; $comment < random_int(0, 3); $comment++) {
                     Comment::factory()->create([
                         'post_id' => $post->id,
                         'user_id' => $users->random()->id,

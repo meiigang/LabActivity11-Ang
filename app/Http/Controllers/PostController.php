@@ -33,7 +33,22 @@ class PostController extends Controller
         $post = $request->user()->author()->firstOrFail()->posts()->create($validated);
         $post->tags()->sync($tagIds);
 
-        return redirect()->route('posts.show', $post);
+        return $post->is_published
+            ? redirect()->route('posts.show', $post)
+            : redirect()->route('posts.mine');
+    }
+
+    public function mine(Request $request): View
+    {
+        $author = $request->user()->author()->firstOrFail();
+        $posts = $author->posts()
+            ->with(['author', 'tags'])
+            ->withCount('comments')
+            ->latest('created_at')
+            ->paginate(self::PER_PAGE)
+            ->withQueryString();
+
+        return view('posts.mine', compact('posts'));
     }
 
     public function index(Request $request): View

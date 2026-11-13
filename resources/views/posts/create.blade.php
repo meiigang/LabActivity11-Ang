@@ -68,9 +68,11 @@
                     @error('tags')
                         <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
-                    @error('tags.*')
-                        <p class="text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    @foreach ($errors->get('tags.*') as $messages)
+                        @foreach ($messages as $message)
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @endforeach
+                    @endforeach
                 </fieldset>
 
                 <label class="flex items-center gap-2">

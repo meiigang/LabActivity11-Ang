@@ -15,6 +15,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/my-posts', [PostController::class, 'mine'])
+    ->middleware('auth')
+    ->name('posts.mine');
 Route::get('/posts/create', [PostController::class, 'create'])
     ->middleware('auth')
     ->name('posts.create');
